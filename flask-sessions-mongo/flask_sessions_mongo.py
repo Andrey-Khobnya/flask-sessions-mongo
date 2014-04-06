@@ -24,9 +24,12 @@
 
 import datetime
 import pickle
-from uuid import uuid4
+import base64
+import os
+from M2Crypto import m2
 from flask.sessions import SessionInterface, SessionMixin
 
+m2.rand_seed(os.urandom(16))
 
 def sessions_mongo(app):
     """Initialize the `app` for use with :class:`~MongoSessionInterface`
@@ -67,8 +70,8 @@ class MongoSessionInterface(SessionInterface):
         self.db = db
         self.collection_name = collection_name
 
-    def generate_sid(self):
-        return str(uuid4())
+    def generate_sid(self, size=16):
+        return base64.b64encode(m2.rand_bytes(size))
 
     def open_session(self, app, request):
         sid = request.cookies.get(app.session_cookie_name)

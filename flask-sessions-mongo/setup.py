@@ -12,6 +12,7 @@ setup(
     install_requires=[
         'Flask',
         'Flask-PyMongo',
+        'M2Crypto',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
